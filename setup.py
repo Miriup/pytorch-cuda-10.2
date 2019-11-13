@@ -244,9 +244,10 @@ else:
 
 # Constant known variables used throughout this file
 cwd = os.path.dirname(os.path.abspath(__file__))
-lib_path = os.path.join(cwd, "torch", "lib")
+cmake_build_dir = os.environ.get("CMAKE_BUILD_DIR", os.path.join(cwd, "build"))
+lib_path = os.path.join(cmake_build_dir, "lib")
 third_party_path = os.path.join(cwd, "third_party")
-caffe2_build_dir = os.path.join(cwd, "build")
+caffe2_build_dir = cmake_build_dir
 # lib/pythonx.x/site-packages
 rel_site_packages = distutils.sysconfig.get_python_lib(prefix='')
 # full absolute path to the dir above
@@ -304,13 +305,6 @@ def build_deps():
 
     check_pydep('yaml', 'pyyaml')
     check_pydep('typing', 'typing')
-
-    build_caffe2(version=version,
-                 cmake_python_library=cmake_python_library,
-                 build_python=True,
-                 rerun_cmake=RERUN_CMAKE,
-                 cmake_only=CMAKE_ONLY,
-                 cmake=cmake)
 
     if CMAKE_ONLY:
         report('Finished running cmake. Run "ccmake build" or '
