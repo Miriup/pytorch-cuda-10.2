@@ -35,7 +35,6 @@ import onnx
 from onnx import checker, GraphProto, TensorProto, AttributeProto, ModelProto
 import onnx.numpy_helper
 import onnx.defs
-import onnx.optimizer
 import onnx.shape_inference
 import onnx.utils
 from onnx.backend.base import Backend, Device, DeviceType, namedtupledict
@@ -873,9 +872,22 @@ class Caffe2Backend(Backend):
     def _onnx_model_to_caffe2_net(cls, onnx_model, device, opset_version, include_initializers):
         device_option = get_device_option(Device(device))
 
-        onnx_model = onnx.utils.polish_model(onnx_model)
-        init_model = cls.optimize_onnx(onnx_model, init=True)
-        pred_model = cls.optimize_onnx(onnx_model, predict=True)
+        # Prior to onnx version update to onnx-1.8.0, errors caused by failures in
+        # in the onnx shape inference call were being supressed. Hence a try-catch block
+        # is added around the infer_shapes call to avoid these failures and preserve status
+        try:
+            onnx_model = onnx.utils.polish_model(onnx_model)
+        except RuntimeError:
+            warnings.warn("ShapeInferenceWarning: Inferred shape and existing shape differ in rank")
+
+        # Optimizer module has been removed in ONNX-1.9 or later, warn caller if that is the case
+        try:
+            init_model = cls.optimize_onnx(onnx_model, init=True)
+            pred_model = cls.optimize_onnx(onnx_model, predict=True)
+        except AttributeError:
+            warnings.warn("OptimizerWarning: optimizer module not found in ONNX version {}".format(onnx.__version__))
+            init_model = onnx_model
+            pred_model = onnx_model
 
         init_net = caffe2_pb2.NetDef()
         pred_net = caffe2_pb2.NetDef()
