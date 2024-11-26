@@ -59,7 +59,7 @@ add_library(caffe2_rocksdb ${CMAKE_CURRENT_SOURCE_DIR}/rocksdb.cc)
 target_link_libraries(caffe2_rocksdb PUBLIC torch_library)
 target_link_libraries(caffe2_rocksdb PRIVATE ${RocksDB_LIBRARIES})
 target_include_directories(caffe2_rocksdb PRIVATE ${RocksDB_INCLUDE_DIR})
-install(TARGETS caffe2_rocksdb DESTINATION lib)
+install(TARGETS caffe2_rocksdb DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 # ---[ Last, Append the library to Caffe2_MODULES, if we are building with
 # the main repo.

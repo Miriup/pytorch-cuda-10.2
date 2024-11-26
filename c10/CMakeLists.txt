@@ -105,7 +105,7 @@ endif()
 # Note: for now, we will put all export path into one single Caffe2Targets group
 # to deal with the cmake deployment need. Inside the Caffe2Targets set, the
 # individual libraries like libc10.so and libcaffe2.so are still self-contained.
-install(TARGETS c10 EXPORT Caffe2Targets DESTINATION lib)
+install(TARGETS c10 EXPORT Caffe2Targets DESTINATION ${CMAKE_INSTALL_LIBDIR})
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
         DESTINATION include
         FILES_MATCHING PATTERN "*.h")

@@ -64,7 +64,7 @@ add_subdirectory(test)
 # Note: for now, we will put all export path into one single Caffe2Targets group
 # to deal with the cmake deployment need. Inside the Caffe2Targets set, the
 # individual libraries like libc10.so and libcaffe2.so are still self-contained.
-install(TARGETS c10_cuda EXPORT Caffe2Targets DESTINATION lib)
+install(TARGETS c10_cuda EXPORT Caffe2Targets DESTINATION ${CMAKE_INSTALL_LIBDIR})
 foreach(file ${C10_CUDA_HEADERS})
   get_filename_component( dir ${file} DIRECTORY )
   install( FILES ${file} DESTINATION include/c10/cuda/${dir} )

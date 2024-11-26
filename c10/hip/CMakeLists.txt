@@ -55,7 +55,7 @@ target_include_directories(
 add_subdirectory(test)
 
 # ---[ Installation
-install(TARGETS c10_hip EXPORT Caffe2Targets DESTINATION lib)
+install(TARGETS c10_hip EXPORT Caffe2Targets DESTINATION ${CMAKE_INSTALL_LIBDIR})
 install(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
         DESTINATION include
         FILES_MATCHING PATTERN "*.h")

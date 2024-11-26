@@ -12,8 +12,8 @@ add_library(jitbackend_test SHARED ${JIT_TEST_ROOT}/test_backend.cpp)
 target_link_libraries(jitbackend_test torch)
 
 if(INSTALL_TEST)
-  install(TARGETS torchbind_test DESTINATION lib)
-  install(TARGETS jitbackend_test DESTINATION lib)
+  install(TARGETS torchbind_test DESTINATION ${CMAKE_INSTALL_LIBDIR})
+  install(TARGETS jitbackend_test DESTINATION ${CMAKE_INSTALL_LIBDIR})
 endif()
 
 
