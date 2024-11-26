@@ -290,7 +290,6 @@ function(torch_compile_options libname)
   endif()
 
   # Use -O2 for release builds (-O3 doesn't improve perf, and -Os results in perf regression)
-  target_compile_options(${libname} PRIVATE "$<$<OR:$<CONFIG:Release>,$<CONFIG:RelWithDebInfo>>:-O2>")
 
   # ---[ Check if warnings should be errors.
   # TODO: Dedupe with WERROR check above

@@ -1,11 +1,10 @@
 #include <torch/csrc/Exceptions.h>
 #include <torch/csrc/python_headers.h>
 
-#include <utility>
-#include <vector>
+#include <array>
 #include <cstdarg>
 #include <exception>
-#include <sstream>
+#include <utility>
 
 #include <torch/csrc/THP.h>
 

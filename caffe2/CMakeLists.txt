@@ -98,7 +98,7 @@ endif()
 # Note: the folders that are being commented out have not been properly
 # addressed yet.
 
-if(NOT MSVC AND USE_XNNPACK)
+if(FALSE)
   if(NOT TARGET fxdiv)
     set(FXDIV_BUILD_TESTS OFF CACHE BOOL "")
     set(FXDIV_BUILD_BENCHMARKS OFF CACHE BOOL "")
@@ -770,7 +770,6 @@ endif()
 
 
 if(NOT MSVC AND USE_XNNPACK)
-  TARGET_LINK_LIBRARIES(torch_cpu PRIVATE fxdiv)
 endif()
 
 # ==========================================================

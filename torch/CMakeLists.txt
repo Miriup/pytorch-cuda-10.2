@@ -63,13 +63,8 @@ set(TORCH_PYTHON_INCLUDE_DIRECTORIES
     ${CMAKE_BINARY_DIR}
     ${CMAKE_BINARY_DIR}/aten/src
     ${CMAKE_BINARY_DIR}/caffe2/aten/src
-    ${CMAKE_BINARY_DIR}/third_party
-    ${CMAKE_BINARY_DIR}/third_party/onnx
 
-    ${TORCH_ROOT}/third_party/valgrind-headers
 
-    ${TORCH_ROOT}/third_party/gloo
-    ${TORCH_ROOT}/third_party/onnx
     ${pybind11_INCLUDE_DIRS}
 
     ${TORCH_SRC_DIR}/csrc
@@ -83,7 +78,6 @@ list(APPEND TORCH_PYTHON_INCLUDE_DIRECTORIES ${LIBSHM_SRCDIR})
 set(TORCH_PYTHON_LINK_LIBRARIES
     torch_library
     shm
-    fmt::fmt-header-only)
 
 set(TORCH_PYTHON_COMPILE_DEFINITIONS)
 

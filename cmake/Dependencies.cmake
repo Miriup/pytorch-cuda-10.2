@@ -362,7 +362,7 @@ endif()
 list(APPEND Caffe2_DEPENDENCY_LIBS cpuinfo)
 
 # ---[ QNNPACK
-if(USE_QNNPACK)
+if(FALSE)
   set(CAFFE2_THIRD_PARTY_ROOT "${PROJECT_SOURCE_DIR}/third_party")
 
   if(NOT DEFINED QNNPACK_SOURCE_DIR)
@@ -412,7 +412,7 @@ if(USE_QNNPACK)
 endif()
 
 # ---[ Caffe2 Int8 operators (enabled by USE_QNNPACK) depend on gemmlowp and neon2sse headers
-if(USE_QNNPACK)
+if(FALSE)
   set(CAFFE2_THIRD_PARTY_ROOT "${PROJECT_SOURCE_DIR}/third_party")
   include_directories(SYSTEM "${CAFFE2_THIRD_PARTY_ROOT}/gemmlowp")
   include_directories(SYSTEM "${CAFFE2_THIRD_PARTY_ROOT}/neon2sse")
@@ -650,7 +650,7 @@ if(BUILD_TEST OR BUILD_MOBILE_BENCHMARK OR BUILD_MOBILE_TEST)
 endif()
 
 # ---[ FBGEMM
-if(USE_FBGEMM)
+if(FALSE)
   set(CAFFE2_THIRD_PARTY_ROOT "${PROJECT_SOURCE_DIR}/third_party")
   if(NOT DEFINED FBGEMM_SOURCE_DIR)
     set(FBGEMM_SOURCE_DIR "${CAFFE2_THIRD_PARTY_ROOT}/fbgemm" CACHE STRING "FBGEMM source directory")
@@ -692,6 +692,7 @@ endif()
 if(USE_FBGEMM)
   set(CAFFE2_THIRD_PARTY_ROOT "${PROJECT_SOURCE_DIR}/third_party")
   include_directories(SYSTEM "${CAFFE2_THIRD_PARTY_ROOT}")
+  list(APPEND Caffe2_DEPENDENCY_LIBS fbgemm)
   caffe2_update_option(USE_FBGEMM ON)
 else()
   caffe2_update_option(USE_FBGEMM OFF)
@@ -1395,7 +1396,6 @@ if(CAFFE2_CMAKE_BUILDING_WITH_MAIN_REPO AND NOT INTERN_DISABLE_ONNX)
   if(NOT USE_SYSTEM_ONNX)
     add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../third_party/onnx EXCLUDE_FROM_ALL)
   endif()
-  add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../third_party/foxi EXCLUDE_FROM_ALL)
 
   add_definitions(-DONNX_NAMESPACE=${ONNX_NAMESPACE})
   if(NOT USE_SYSTEM_ONNX)
@@ -1731,8 +1731,6 @@ endif()
 # End ATen checks
 #
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/fmt)
-
 # Disable compiler feature checks for `fmt`.
 #
 # CMake compiles a little program to check compiler features. Some of our build
@@ -1740,6 +1738,4 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/fmt)
 # CMAKE_CXX_FLAGS in ways that break feature checks. Since we already know
 # `fmt` is compatible with a superset of the compilers that PyTorch is, it
 # shouldn't be too bad to just disable the checks.
-set_target_properties(fmt-header-only PROPERTIES INTERFACE_COMPILE_FEATURES "")
 
-list(APPEND Caffe2_DEPENDENCY_LIBS fmt::fmt-header-only)
