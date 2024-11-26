@@ -1316,6 +1316,7 @@ if(USE_DISTRIBUTED AND USE_TENSORPIPE)
 
     add_subdirectory(${PROJECT_SOURCE_DIR}/third_party/tensorpipe)
 
+    # FIXME Do I have to delete the line below?
     list(APPEND Caffe2_DEPENDENCY_LIBS tensorpipe)
   endif()
 endif()
