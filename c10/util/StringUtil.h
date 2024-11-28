@@ -5,6 +5,7 @@
 #include <c10/util/string_utils.h>
 
 #include <cstddef>
+#include <cstdint>
 #include <ostream>
 #include <sstream>
 #include <string>
