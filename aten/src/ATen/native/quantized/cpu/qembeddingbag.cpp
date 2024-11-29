@@ -52,7 +52,7 @@ at::Tensor& embedding_lookup_fallback_impl(
   const auto weight_sizes = weight.sizes();
   const int64_t N = weight_sizes[0];
   const int64_t weight_size = weight_sizes[1];
-  const int index_size = indices.numel();
+  const int64_t index_size = indices.numel();
 
   auto accessor = offsets.accessor<OffsetType, 1>();
   std::vector<OffsetType> lengths_data;
@@ -84,7 +84,7 @@ at::Tensor& embedding_lookup_fallback_impl(
         TORCH_CHECK((idx >= 0 && idx < N), "Invalid indices data");
       } else {
         int64_t uncompressed_idx = indices_data[current];
-        int compressed_index_size = compressed_indices_mapping.value().numel();
+        int64_t compressed_index_size = compressed_indices_mapping.value().numel();
         compressed_indices_mapping_data =
             compressed_indices_mapping.value().data_ptr<int32_t>();
         TORCH_CHECK(
@@ -100,7 +100,7 @@ at::Tensor& embedding_lookup_fallback_impl(
       if (per_sample_weights_.has_value()) {
         weight_val = per_sample_weights_data[current];
       }
-      float scale = 0, bias = 0;
+      float scale = std::numeric_limits<float>::quiet_NaN(), bias = std::numeric_limits<float>::quiet_NaN();
       if constexpr (BIT_RATE == 8) {
         const uint8_t* scale_bias =
             weight_data + (idx + 1) * weight_size - 2 * sizeof(float);
@@ -179,7 +179,7 @@ at::Tensor& embedding_lookup_fallback_impl(
         quantized >>= (j % NUM_ELEM_PER_BYTE) * BIT_RATE;
         quantized &= (1 << BIT_RATE) - 1;
 
-        output_data[j] = fma(scale, quantized, output_data[j] + bias);
+        output_data[j] = static_cast<float>(fma(scale, quantized, output_data[j] + bias));
       }
     } // for each i
     output_data += block_size;
@@ -235,7 +235,7 @@ at::Tensor& embedding_bag_nbit_impl(
 
   // Get compressed indices for pruned_weights op.
   int32_t* compressed_indices_mapping_data = nullptr;
-  int compressed_index_size = 0;
+  int64_t compressed_index_size = 0;
   bool fallback_to_no_sparse = false;
   if (pruned_weights) {
     compressed_index_size = compressed_indices_mapping.value().numel();
@@ -254,7 +254,7 @@ at::Tensor& embedding_bag_nbit_impl(
   const int64_t weight_size = weight_sizes[1];
   int NUM_ELEM_PER_BYTE = 8 / bit_width;
   const int64_t D =
-      (weight_size - 2 * sizeof(at::Half)) * NUM_ELEM_PER_BYTE; // NB: 2-byte fp16 scale and 2-byte zero_offset
+      (weight_size - static_cast<int64_t>(2 * sizeof(at::Half)) * NUM_ELEM_PER_BYTE); // NB: 2-byte fp16 scale and 2-byte zero_offset
   const int64_t M = offsets.sizes()[0];
 
   int64_t output_size = M - 1;
@@ -406,7 +406,7 @@ at::Tensor& embedding_bag_byte_impl(
 
   // Get compressed indices for pruned_weights.
   int32_t* compressed_indices_mapping_data = nullptr;
-  int compressed_index_size = 0;
+  int64_t compressed_index_size = 0;
   bool fallback_to_no_sparse = false;
   if (pruned_weights) {
     compressed_index_size = compressed_indices_mapping.value().numel();
