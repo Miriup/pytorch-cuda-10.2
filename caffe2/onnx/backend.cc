@@ -1437,7 +1437,7 @@ Caffe2Ops Caffe2Backend::ConvertNode(
     const ConversionContext& ctx) {
   ::google::protobuf::RepeatedPtrField<NodeProto> nodes;
   auto* n = nodes.Add();
-  ParseProtoFromLargeString(node_str, n);
+  ParseProtoFromLargeString(node_str, (google::protobuf::Message *)n);
   ModelProto init_model;
   ModelProto pred_model;
   OnnxNode onnx_node = OnnxNode(nodes.Get(0));
@@ -1602,7 +1602,7 @@ Caffe2BackendRep* Caffe2Backend::Prepare(
     const std::vector<Caffe2Ops>& extras) {
   Caffe2BackendRep* rep = new Caffe2BackendRep();
   ModelProto onnx_model;
-  ParseProtoFromLargeString(onnx_model_str, &onnx_model);
+  ParseProtoFromLargeString(onnx_model_str, (google::protobuf::Message *) &onnx_model);
 
 #ifndef C10_MOBILE
   ::ONNX_NAMESPACE::checker::check_model(onnx_model);
