@@ -1520,8 +1520,7 @@ void _embedding_bag_dense_backward_cpu_sum_mean(
   auto offset2bag = offset2bag_.index_select(0, ind_sort);
 
   std::optional<Tensor> per_sample_weights;
-  // NOLINTNEXTLINE(cppcoreguidelines-init-variables)
-  const scalar_t* per_sample_weights_data;
+  const scalar_t* per_sample_weights_data = nullptr;
   std::optional<int64_t> per_sample_weights_stride;
   if (per_sample_weights_.defined()) {
     per_sample_weights = per_sample_weights_.index_select(0, ind_sort);
@@ -1759,7 +1758,6 @@ Tensor _embedding_bag_sparse_backward_symint(
   // Also see NOTE [ embedding_bag Native Functions ] in native_functions.yaml
   // for more details.
 
-  // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
   Tensor grad = grad_;
   Tensor index_grad = grad_.index_select(0, offset2bag);
 
