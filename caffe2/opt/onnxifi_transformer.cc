@@ -1087,8 +1087,10 @@ NetDef OnnxifiTransformer::SubnetToOnnxifiOpViaOnnx(
 
   // Debugging stuff
   if (opts_.debug) {
+    /* FIXME Those functions are missing. Quick search on github suggests they should exist.
     WriteProtoToTextFile(onnx_model, "debug_onnxifi_net.onnx_txt");
     WriteProtoToTextFile(net_opt, "debug_optimized_net.pb_txt");
+    */
   }
   return net_opt;
 }

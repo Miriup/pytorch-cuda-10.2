@@ -955,7 +955,7 @@ void addObjectMethods(py::module& m) {
              const std::string& name = "") -> py::bytes {
             caffe2::OperatorDef op;
             ::ONNX_NAMESPACE::TensorProto tp;
-            ParseProtoFromLargeString(tensor_proto_str, &tp);
+            ParseProtoFromLargeString(tensor_proto_str, (google::protobuf::Message *) &tp);
             instance.BuildTensorFillingOp(&op, tp, name);
             std::string out;
             op.SerializeToString(&out);
