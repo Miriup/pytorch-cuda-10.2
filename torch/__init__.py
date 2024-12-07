@@ -497,7 +497,7 @@ def manager_path():
 
 
 # Shared memory manager needs to know the exact location of manager executable
-_C._initExtension(manager_path())
+_C._initExtension(b"/usr/bin/torch_shm_manager")
 del manager_path
 
 # Appease the type checker: it can't deal with direct setting of globals().
