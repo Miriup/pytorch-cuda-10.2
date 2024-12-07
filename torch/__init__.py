@@ -139,7 +139,7 @@ def _load_global_deps():
     here = os.path.abspath(__file__)
     lib_path = os.path.join(os.path.dirname(here), 'lib', lib_name)
 
-    ctypes.CDLL(lib_path, mode=ctypes.RTLD_GLOBAL)
+    ctypes.CDLL(lib_name, mode=ctypes.RTLD_GLOBAL)
 
 
 if (USE_RTLD_GLOBAL_WITH_LIBTORCH or os.getenv('TORCH_USE_RTLD_GLOBAL')) and \
