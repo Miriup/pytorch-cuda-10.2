@@ -1739,4 +1739,5 @@ endif()
 # CMAKE_CXX_FLAGS in ways that break feature checks. Since we already know
 # `fmt` is compatible with a superset of the compilers that PyTorch is, it
 # shouldn't be too bad to just disable the checks.
+list(APPEND Caffe2_DEPENDENCY_LIBS fmt)
 
