@@ -195,6 +195,8 @@ import json
 import glob
 import importlib
 
+sys.path[:0] = os.getcwd()
+
 from tools.build_pytorch_libs import build_caffe2
 from tools.setup_helpers.env import (IS_WINDOWS, IS_DARWIN, IS_LINUX,
                                      check_env_flag, build_type)
