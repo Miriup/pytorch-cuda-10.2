@@ -139,7 +139,7 @@ def _load_global_deps():
     here = os.path.abspath(__file__)
     lib_path = os.path.join(os.path.dirname(here), 'lib', lib_name)
 
-    ctypes.CDLL(lib_path, mode=ctypes.RTLD_GLOBAL)
+    ctypes.CDLL(lib_name, mode=ctypes.RTLD_GLOBAL)
 
 
 if (USE_RTLD_GLOBAL_WITH_LIBTORCH or os.getenv('TORCH_USE_RTLD_GLOBAL')) and \
@@ -497,7 +497,7 @@ def manager_path():
 
 
 # Shared memory manager needs to know the exact location of manager executable
-_C._initExtension(manager_path())
+_C._initExtension(b"/usr/bin/torch_shm_manager")
 del manager_path
 
 # Appease the type checker: it can't deal with direct setting of globals().
